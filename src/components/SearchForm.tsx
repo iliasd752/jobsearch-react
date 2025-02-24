@@ -1,14 +1,4 @@
-import { useEffect, useState } from "react";
-
-export default function SearchForm() {
-  const [searchText, setSearchText] = useState("");
-
-  useEffect(() => {
-    if (!searchText) return;
-
-    fetch();
-  }, [searchText]);
-
+export default function SearchForm({ searchText, setSearchText }) {
   return (
     <form
       onSubmit={(e) => {
