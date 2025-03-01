@@ -19,6 +19,10 @@ function App() {
   const [jobItems, isLoading] = useJobItems(searchText);
   const activeId = useActiveId();
 
+  useEffect(() => {
+    fetch('${ba);
+  }, [activeId])
+
   return (
     <>
       <Background />
