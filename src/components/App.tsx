@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Background from "./Background";
 import Container from "./Container";
 import Footer from "./Footer";
@@ -12,16 +12,13 @@ import ResultsCount from "./ResultsCount";
 import SortingControls from "./SortingControls";
 import PaginationControls from "./PaginationControls";
 import JobList from "./JobList";
-import { useActiveId, useJobItems } from "../lib/hooks";
+import { useActiveId, useJobItem, useJobItems } from "../lib/hooks";
 
 function App() {
   const [searchText, setSearchText] = useState("");
   const [jobItems, isLoading] = useJobItems(searchText);
   const activeId = useActiveId();
-
-  useEffect(() => {
-    fetch('${ba);
-  }, [activeId])
+  const jobItem = useJobItem(activeId);
 
   return (
     <>
@@ -44,7 +41,7 @@ function App() {
           <JobList jobItems={jobItems} isLoading={isLoading} />
           <PaginationControls />
         </Sidebar>
-        <JobItemContent />
+        <JobItemContent jobItem={jobItem} />
       </Container>
 
       <Footer />
