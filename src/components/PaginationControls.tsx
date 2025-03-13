@@ -6,6 +6,7 @@ type PaginationControlsProps = {
 
 export default function PaginationControls({
   currentPage,
+  totalNumberOfPages,
   onClick,
 }: PaginationControlsProps) {
   return (
@@ -17,12 +18,13 @@ export default function PaginationControls({
           onClick={() => onClick("previous")}
         />
       )}
-
-      <PaginationButton
-        direction="next"
-        currentPage={currentPage}
-        onClick={() => onClick("next")}
-      />
+      {currentPage < totalNumberOfPages && (
+        <PaginationButton
+          direction="next"
+          currentPage={currentPage}
+          onClick={() => onClick("next")}
+        />
+      )}
     </section>
   );
 }

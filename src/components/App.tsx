@@ -22,6 +22,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalNumberOfResults = jobItems?.length || 0;
+  const totalNumberOfPages = totalNumberOfResults / 7;
   const jobItemsSliced =
     jobItems?.slice(currentPage * 7 - 7, currentPage * 7) || [];
 
@@ -54,6 +55,7 @@ function App() {
           <JobList jobItems={jobItemsSliced} isLoading={isLoading} />
           <PaginationControls
             currentPage={currentPage}
+            totalNumberOfPages={totalNumberOfPages}
             onClick={handleChangePage}
           />
         </Sidebar>
