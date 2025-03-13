@@ -32,8 +32,6 @@ function App() {
     }
   };
 
-  handleChangePage("next");
-
   return (
     <>
       <Background />
@@ -53,7 +51,10 @@ function App() {
             <SortingControls />
           </SidebarTop>
           <JobList jobItems={jobItemsSliced} isLoading={isLoading} />
-          <PaginationControls />
+          <PaginationControls
+            currentPage={currentPage}
+            onClick={handleChangePage}
+          />
         </Sidebar>
         <JobItemContent />
       </Container>
