@@ -15,7 +15,7 @@ import JobList from "./JobList";
 import { useDebounce, useJobItems } from "../lib/hooks";
 import { Toaster } from "react-hot-toast";
 import { RESULTS_PER_PAGE } from "../lib/constants";
-import { SortBy } from "../lib/types";
+import { PageDirection, SortBy } from "../lib/types";
 
 function App() {
   const [searchText, setSearchText] = useState("");
@@ -26,14 +26,13 @@ function App() {
 
   const totalNumberOfResults = jobItems?.length || 0;
   const totalNumberOfPages = totalNumberOfResults / 7;
-  const jobItemsSorted =
-    jobItems?.sort((a, b) => {
-      if (sortBy === "relevant") {
-        return b.relevanceScore - a.relevanceScore;
-      } else {
-        return a.daysAgo - b.daysAgo;
-      }
-    }) || [];
+  const jobItemsSorted = [...(jobItems || [])].sort((a, b) => {
+    if (sortBy === "relevant") {
+      return b.relevanceScore - a.relevanceScore;
+    } else {
+      return a.daysAgo - b.daysAgo;
+    }
+  });
   const jobItemsSortedAndSliced = jobItemsSorted.slice(
     currentPage * RESULTS_PER_PAGE - RESULTS_PER_PAGE,
     currentPage * RESULTS_PER_PAGE
