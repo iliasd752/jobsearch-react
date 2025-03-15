@@ -39,7 +39,7 @@ function App() {
     currentPage * RESULTS_PER_PAGE
   );
 
-  const handleChangePage = (direction: "next" | "previous") => {
+  const handleChangePage = (direction: PageDirection) => {
     if (direction === "next") {
       setCurrentPage((prev) => prev + 1);
     } else if (direction === "previous") {
