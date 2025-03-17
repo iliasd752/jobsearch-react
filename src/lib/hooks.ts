@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { JobItem } from "./types";
+import { JobItem, JobItemExpanded } from "./types";
 import { BASE_API_URL } from "./constants";
 import { useQuery } from "@tanstack/react-query";
 import { handleError } from "./utils";
@@ -8,7 +8,7 @@ type JobItemApiResponse = {
   public: boolean;
   sorted: boolean;
   jobItems: JobItem[];
-  jobItem: JobItem[];
+  jobItem: JobItemExpanded;
 };
 
 const fetchJobItem = async (id: number): Promise<JobItemApiResponse> => {
