@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { JobItem, JobItemExpanded } from "./types";
 import { BASE_API_URL } from "./constants";
-import { useQuery } from "@tanstack/react-query";
+import { useQueries, useQuery } from "@tanstack/react-query";
 import { handleError } from "./utils";
 import { BookmarksContext } from "../contexts/BookmarksContextProvider";
 
@@ -32,7 +32,7 @@ export function useJobItem(id: number | null) {
       retry: false,
       enabled: Boolean(id),
       onError: handleError,
-    }
+    },
   );
   return {
     jobItem: data?.jobItem,
@@ -60,7 +60,7 @@ export function useActiveId() {
 }
 
 const fetchJobItems = async (
-  searchText: string
+  searchText: string,
 ): Promise<JobItemApiResponse> => {
   const response = await fetch(`${BASE_API_URL}?search=${searchText}`);
   if (!response.ok) {
@@ -71,7 +71,30 @@ const fetchJobItems = async (
   return data;
 };
 
-export function useJobItems(searchText: string) {
+export function useJobItems(ids: number[]) {
+  const results = useQueries({
+    queries: ids.map((id) => ({
+      queryKey: ["job-item", id],
+      queryFn: () => fetchJobItem(id),
+      staleTime: 1000 * 60 * 60,
+      refetchOnWindowFocus: false,
+      retry: false,
+      enabled: Boolean(id),
+      onError: handleError,
+    })),
+  });
+  const jobItems = results
+    .map((result) => result.data?.jobItem)
+    .filter((jobItem) => jobItem !== undefined);
+  const isLoading = results.some((result) => result.isLoading);
+
+  return {
+    jobItems,
+    isLoading,
+  };
+}
+
+export function useSearchQuery(searchText: string) {
   const { data, isInitialLoading } = useQuery(
     ["job-items", searchText],
     () => fetchJobItems(searchText),
@@ -81,7 +104,7 @@ export function useJobItems(searchText: string) {
       retry: false,
       enabled: Boolean(searchText),
       onError: handleError,
-    }
+    },
   );
   return {
     jobItems: data?.jobItems,
@@ -103,10 +126,10 @@ export function useDebounce<T>(value: T, delay = 500): T {
 
 export function useLocalStorage<T>(
   key: string,
-  initialValue: T
+  initialValue: T,
 ): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [value, setValue] = useState(() =>
-    JSON.parse(localStorage.getItem(key) || JSON.stringify(initialValue))
+    JSON.parse(localStorage.getItem(key) || JSON.stringify(initialValue)),
   );
 
   useEffect(() => {
@@ -120,7 +143,7 @@ export function useBookmarksContext() {
   const context = useContext(BookmarksContext);
   if (!context) {
     throw new Error(
-      "useBookmarksContext must be used within a BookmarksContextProvider"
+      "useBookmarksContext must be used within a BookmarksContextProvider",
     );
   }
   return context;
