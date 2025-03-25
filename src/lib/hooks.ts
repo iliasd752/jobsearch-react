@@ -32,7 +32,7 @@ export function useJobItem(id: number | null) {
       retry: false,
       enabled: Boolean(id),
       onError: handleError,
-    },
+    }
   );
   return {
     jobItem: data?.jobItem,
@@ -60,7 +60,7 @@ export function useActiveId() {
 }
 
 const fetchJobItems = async (
-  searchText: string,
+  searchText: string
 ): Promise<JobItemApiResponse> => {
   const response = await fetch(`${BASE_API_URL}?search=${searchText}`);
   if (!response.ok) {
@@ -104,7 +104,7 @@ export function useSearchQuery(searchText: string) {
       retry: false,
       enabled: Boolean(searchText),
       onError: handleError,
-    },
+    }
   );
   return {
     jobItems: data?.jobItems,
@@ -126,10 +126,10 @@ export function useDebounce<T>(value: T, delay = 500): T {
 
 export function useLocalStorage<T>(
   key: string,
-  initialValue: T,
+  initialValue: T
 ): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [value, setValue] = useState(() =>
-    JSON.parse(localStorage.getItem(key) || JSON.stringify(initialValue)),
+    JSON.parse(localStorage.getItem(key) || JSON.stringify(initialValue))
   );
 
   useEffect(() => {
@@ -143,7 +143,7 @@ export function useBookmarksContext() {
   const context = useContext(BookmarksContext);
   if (!context) {
     throw new Error(
-      "useBookmarksContext must be used within a BookmarksContextProvider",
+      "useBookmarksContext must be used within a BookmarksContextProvider"
     );
   }
   return context;
