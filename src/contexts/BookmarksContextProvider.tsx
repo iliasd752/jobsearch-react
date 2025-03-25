@@ -15,11 +15,11 @@ export default function BookmarksContextProvider({
 }) {
   const [bookmarkedIds, setBookmarkedIds] = useLocalStorage<number[]>(
     "bookmarkedIds",
-    [],
+    []
   );
 
-  // const { jobItems: bookmarkedJobItems, isLoading } =
-  useJobItems(bookmarkedIds);
+  const { jobItems: bookmarkedJobItems, isLoading } =
+    useJobItems(bookmarkedIds);
 
   const handleToggleBookmark = (id: number) => {
     if (bookmarkedIds.includes(id)) {
@@ -34,8 +34,8 @@ export default function BookmarksContextProvider({
       value={{
         bookmarkedIds,
         handleToggleBookmark,
-        // bookmarkedJobItems,
-        // isLoading,
+        bookmarkedJobItems,
+        isLoading,
       }}
     >
       {children}
