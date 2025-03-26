@@ -1,6 +1,6 @@
 import { TriangleDownIcon } from "@radix-ui/react-icons";
 import BookmarksPopover from "./BookmarksPopover";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useOnClickOutside } from "../lib/hooks";
 
 export default function BookmarksButton() {
