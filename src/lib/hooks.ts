@@ -88,7 +88,8 @@ export function useJobItems(ids: number[]) {
   });
   const jobItems = results
     .map((result) => result.data?.jobItem)
-    .filter((jobItem) => jobItem !== undefined);
+   /*/ .filter((jobItem) => jobItem !== undefined); /*/
+   .filter((jobItem): jobItem is JobItemExpanded => jobItem !== undefined);
   const isLoading = results.some((result) => result.isLoading);
 
   return {
@@ -139,7 +140,7 @@ export function useLocalStorage<T>(
     localStorage.setItem(key, JSON.stringify(value));
   }, [value, key]);
 
-  return [value, setValue] as const;
+  return [value, setValue];
 }
 
 export function useOnClickOutside(
